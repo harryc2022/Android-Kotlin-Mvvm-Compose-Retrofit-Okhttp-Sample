@@ -1,0 +1,64 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven{ url 'https://maven.aliyun.com/repository/jcenter' }
+        maven {
+            url 'https://jitpack.io'
+        }
+    }
+}
+rootProject.name = "XXXAndroidPackage"
+include ':app'
+
+include ':framework:base'
+project(':framework:base').projectDir =file('./Framework/base')
+
+include ':framework:network'
+project(':framework:network').projectDir =file('./Framework/network')
+
+include ':framework:tool'
+project(':framework:tool').projectDir =file('./Framework/tool')
+
+include ':framework:download'
+project(':framework:download').projectDir =file('./Framework/download')
+
+include ':common:base'
+project(':common:base').projectDir =file('./Common/base')
+
+include ':common:dialog'
+project(':common:dialog').projectDir =file('./Common/dialog')
+
+include ':common:protocol'
+project(':common:protocol').projectDir =file('./Common/protocol')
+
+include ':common:view'
+project(':common:view').projectDir =file('./Common/view')
+
+include ':business:base'
+project(':business:base').projectDir =file('./Business/base')
+
+include ':business:arouter'
+project(':business:arouter').projectDir =file('./Business/arouter')
+
+include ':business:viewmodel'
+project(':business:viewmodel').projectDir =file('./Business/viewmodel')
+
+include ':business:uiLogin'
+project(':business:uiLogin').projectDir =file('./Business/uiLogin')
+
+include ':business:uiMain'
+project(':business:uiMain').projectDir =file('./Business/uiMain')
+
+include ':business:viewmodel'
+project(':business:viewmodel').projectDir =file('./Business/viewmodel')
+
+
