@@ -2,6 +2,7 @@ package com.xxx.business.base
 
 import com.alibaba.android.arouter.launcher.ARouter
 import com.xxx.framework.base.BaseApp
+import com.xxx.framework.tool.loge
 import com.xxx.viewmodel.app.AppViewModel
 import com.xxx.viewmodel.app.EventViewModel
 
@@ -22,5 +23,6 @@ class App : BaseApp() {
             ARouter.openDebug()
         }
         ARouter.init(this)
+        "ARouter初始化${BuildConfig.DEBUG}".loge()
     }
 }

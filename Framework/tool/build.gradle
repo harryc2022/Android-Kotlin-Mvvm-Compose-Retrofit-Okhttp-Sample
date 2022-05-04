@@ -50,8 +50,6 @@ dependencies {
     api 'me.jessyan:retrofit-url-manager:1.4.0'
 
     //compose
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
     api "androidx.compose.runtime:runtime:$compose_version"
     api "androidx.compose.ui:ui:$compose_version"
     api "androidx.compose.foundation:foundation-layout:$compose_version"
@@ -63,6 +61,8 @@ dependencies {
     api "androidx.compose.runtime:runtime-livedata:$compose_version"
     androidTestImplementation "androidx.compose.ui:ui-test:$compose_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
     api "androidx.activity:activity-compose:$activity_compose"
 

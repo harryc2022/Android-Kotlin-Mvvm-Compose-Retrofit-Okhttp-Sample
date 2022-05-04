@@ -39,7 +39,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':common:base')
-    api 'com.alibaba:arouter-api:1.5.1'
-
-
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "com.alibaba:arouter-api:$arouter_version"
 }

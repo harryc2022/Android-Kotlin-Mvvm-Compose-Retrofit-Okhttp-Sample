@@ -8,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
@@ -18,6 +20,7 @@ import com.xxx.framework.base.viewmodel.BaseViewModel
 import com.xxx.framework.ext.getVmClazz
 import com.xxx.framework.network.manager.NetState
 import com.xxx.framework.network.manager.NetworkStateManager
+import com.xxx.framework.tool.loge
 
 abstract class BaseVmFragment<VM : BaseViewModel> : Fragment() {
 
@@ -33,13 +36,14 @@ abstract class BaseVmFragment<VM : BaseViewModel> : Fragment() {
     /**
      * 当前Fragment绑定的视图布局
      */
-    fun layoutId(): Int? = null
+    open fun layoutId(): Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        "Base Log:当前在${this.javaClass.simpleName}".loge()
         return layoutId()?.let { layoutId ->
             inflater.inflate(layoutId, container, false)
         } ?: ComposeView(requireContext()).apply {
@@ -47,9 +51,10 @@ abstract class BaseVmFragment<VM : BaseViewModel> : Fragment() {
         }
     }
 
+    @Preview
     @Composable
     open fun composeUi() {
-
+        Text("please override composeUi")
     }
 
     override fun onAttach(context: Context) {

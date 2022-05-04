@@ -1,6 +1,11 @@
 package com.xxx.business.arouter
 
-object RouterConstants {
+object XRouterConfig {
+
+
     const val FRAGMENT_URL_LOGIN:String="/login/LoginFragment"
-    const val FRAGMENT_URL_Main:String="/main/MainFragment"
+
+
+    const val FRAGMENT_URL_MAIN:String="/main/MainFragment"
+
 }

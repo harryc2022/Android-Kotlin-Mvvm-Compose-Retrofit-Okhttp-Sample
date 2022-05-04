@@ -35,6 +35,7 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        "Base Log:当前在${this.javaClass.simpleName}".loge()
         layoutId()?.let { layoutId ->
             setContentView(layoutId)
         }?:setContent {
@@ -68,7 +69,7 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
     /**
      * 创建LiveData数据观察者
      */
-    fun createObserver() {}
+    open fun createObserver() {}
 
     /**
      * 注册UI 事件
