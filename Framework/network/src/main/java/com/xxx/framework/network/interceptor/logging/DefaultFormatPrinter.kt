@@ -27,14 +27,14 @@ class DefaultFormatPrinter : FormatPrinter {
         request: Request,
         bodyString: String
     ) {
-        appendTag = md5(URL_TAG + request.url())
+        appendTag = md5(URL_TAG + request.url)
         val requestBody =
             LINE_SEPARATOR + BODY_TAG + LINE_SEPARATOR + bodyString
         val tag = getTag(true)
         LogUtils.debugInfo(tag, REQUEST_UP_LINE)
         logLines(
             tag,
-            arrayOf(URL_TAG + request.url()),
+            arrayOf(URL_TAG + request.url),
             false
         )
         logLines(
@@ -56,12 +56,12 @@ class DefaultFormatPrinter : FormatPrinter {
      * @param request
      */
     override fun printFileRequest(request: Request) {
-        appendTag = md5(URL_TAG + request.url())
+        appendTag = md5(URL_TAG + request.url)
         val tag = getTag(true)
         LogUtils.debugInfo(tag, REQUEST_UP_LINE)
         logLines(
             tag,
-            arrayOf(URL_TAG + request.url()),
+            arrayOf(URL_TAG + request.url),
             false
         )
         logLines(
@@ -298,9 +298,9 @@ class DefaultFormatPrinter : FormatPrinter {
 
         private fun getRequest(request: Request): Array<String?> {
             val log: String
-            val header = request.headers().toString()
+            val header = request.headers.toString()
             log =
-                METHOD_TAG + request.method() + DOUBLE_SEPARATOR +
+                METHOD_TAG + request.method + DOUBLE_SEPARATOR +
                         if (isEmpty(header)) "" else HEADERS_TAG + LINE_SEPARATOR + dotHeaders(
                             header
                         )

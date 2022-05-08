@@ -15,10 +15,10 @@
     </style>
 
     <!-- Base application theme. -->
-    <style name="Theme.SplashCompose" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.SplashCompose" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/gray</item>
-        <item name="colorPrimaryVariant">@color/gray</item>
+        <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -28,8 +28,17 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-    <style name="Theme.SplashCompose.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="Theme.SplashCompose.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!--将顶部状态栏设置为透明，并将界面内容布局上边界上提至状态栏顶部-->
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
+<!--        &lt;!&ndash;如果有底部虚拟导航栏，则将底部虚拟导航栏设置为透明，并将界面内容布局下边界下沉至虚拟导航栏底部&ndash;&gt;-->
+<!--        <item name="android:windowTranslucentNavigation">true</item>-->
+        <!--给window窗口设置背景图-->
+        <item name="android:windowBackground">@mipmap/welcome</item>
     </style>
+
+
+    <declare-styleable name="ClearEditText">
+        <attr name="clear_background" format="reference"/>
+    </declare-styleable>
 </resources>

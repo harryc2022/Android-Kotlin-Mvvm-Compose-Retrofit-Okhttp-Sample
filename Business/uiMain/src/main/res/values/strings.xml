@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Arouter</string>
+    <string name="screen_home">首页</string>
+    <string name="screen_game">游戏</string>
+    <string name="screen_activity">优惠</string>
+    <string name="screen_finance">充值</string>
+    <string name="screen_mine">我的</string>
+    <string name="screen_favorites">Favorites</string>
+</resources>

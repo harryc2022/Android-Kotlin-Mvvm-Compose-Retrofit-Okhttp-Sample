@@ -27,7 +27,7 @@ abstract class BaseVmFragment<VM : BaseViewModel> : Fragment() {
     private val handler = Handler(Looper.getMainLooper())
 
     //是否第一次加载
-    private var isFirst: Boolean = true
+    var isFirst: Boolean = true
 
     lateinit var mViewModel: VM
 
@@ -38,6 +38,9 @@ abstract class BaseVmFragment<VM : BaseViewModel> : Fragment() {
      */
     open fun layoutId(): Int? = null
 
+
+    open fun composeView(): ComposeView? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,15 +49,7 @@ abstract class BaseVmFragment<VM : BaseViewModel> : Fragment() {
         "Base Log:当前在${this.javaClass.simpleName}".loge()
         return layoutId()?.let { layoutId ->
             inflater.inflate(layoutId, container, false)
-        } ?: ComposeView(requireContext()).apply {
-            setContent { composeUi() }
-        }
-    }
-
-    @Preview
-    @Composable
-    open fun composeUi() {
-        Text("please override composeUi")
+        } ?:composeView()
     }
 
     override fun onAttach(context: Context) {
@@ -68,7 +63,6 @@ abstract class BaseVmFragment<VM : BaseViewModel> : Fragment() {
         mViewModel = createViewModel()
         initView(savedInstanceState)
         createObserver()
-        registorDefUIChange()
         initData()
     }
 
@@ -130,39 +124,6 @@ abstract class BaseVmFragment<VM : BaseViewModel> : Fragment() {
      * Fragment执行onCreate后触发的方法
      */
     open fun initData() {}
-
-    abstract fun showLoading(message: String = "请求网络中...")
-
-    abstract fun dismissLoading()
-
-    /**
-     * 注册 UI 事件
-     */
-    private fun registorDefUIChange() {
-        mViewModel.loadingChange.showDialog.observeInFragment(this, Observer {
-            showLoading(it)
-        })
-        mViewModel.loadingChange.dismissDialog.observeInFragment(this, Observer {
-            dismissLoading()
-        })
-    }
-
-    /**
-     * 将非该Fragment绑定的ViewModel添加 loading回调 防止出现请求时不显示 loading 弹窗bug
-     * @param viewModels Array<out BaseViewModel>
-     */
-    protected fun addLoadingObserve(vararg viewModels: BaseViewModel) {
-        viewModels.forEach { viewModel ->
-            //显示弹窗
-            viewModel.loadingChange.showDialog.observeInFragment(this, Observer {
-                showLoading(it)
-            })
-            //关闭弹窗
-            viewModel.loadingChange.dismissDialog.observeInFragment(this, Observer {
-                dismissLoading()
-            })
-        }
-    }
 
     /**
      * 延迟加载 防止 切换动画还没执行完毕时数据就已经加载好了，这时页面会有渲染卡顿  bug

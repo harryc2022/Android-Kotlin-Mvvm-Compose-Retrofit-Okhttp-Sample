@@ -1,17 +1,16 @@
-plugins {
-    id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
-}
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-parcelize'
 apply from: '../../script/local.gradle'
 android {
     compileSdk 32
-
     defaultConfig {
+//        applicationId "com.xxx.common.view"
         minSdk 21
         targetSdk 32
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -28,8 +27,16 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
 }
 
 dependencies {
-    compileOnly project(path: ':framework:base')
+    implementation project(path: ':framework:base')
+    implementation project(path: ':common:protocol')
+    compileOnly project(path: ':common:protocol')
 }

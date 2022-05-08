@@ -2,7 +2,7 @@ package com.xxx.framework.tool
 
 import android.util.Log
 
-const val TAG = "JetpackMvvm"
+const val TAG = "XXXMvvm"
 
 /**
  *

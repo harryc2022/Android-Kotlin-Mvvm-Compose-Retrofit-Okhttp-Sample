@@ -1,8 +1,7 @@
-plugins {
-    id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-parcelize'
-}
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-parcelize'
 apply from: '../../script/local.gradle'
 android {
     compileSdk 32

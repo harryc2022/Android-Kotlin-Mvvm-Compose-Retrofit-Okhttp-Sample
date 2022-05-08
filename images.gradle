@@ -1,0 +1,91 @@
+class AssetsFactory extends DefaultTask {
+    @Input
+    String packagePath = "/"
+    @Input
+    String fileSource = "Assets.kt"
+
+    void findFiles(String[] path, FileOutputStream out, List<String> pathPhoto) {
+        File f = new File(path[1])
+        if (f.isFile()) {
+            String value = path[1].substring(path[1].indexOf("assets/") + 7)
+            String name = value.substring(0, value.indexOf(".")).toLowerCase()
+            name = name.replaceAll("[_ -+]", "/")
+            if (pathPhoto.contains(name)) {
+                name = path[0] + "/" + name
+            }
+            pathPhoto.add(name)
+            name = makeName(name)
+            out.write(("\tconst val ${name} = \"${value}\"\n").getBytes())
+
+            println("===>Image: ${name} - ${value}")
+            println(pathPhoto)
+        } else if (f.isDirectory()) {
+            File[] subs = f.listFiles()
+            if (subs == null || subs.length == 0) return
+            for (File item in subs) {
+                findFiles(new String[]{path[0], item.path}, out, pathPhoto)
+            }
+        }
+    }
+
+    static String makeName(String name) {
+        String[] subNames = name.split("/")
+        String newName = ""
+        for (index in 0..subNames.length - 1) {
+            newName += index == 0 ? subNames[0]
+                    : "${subNames[index].charAt(0)}".toUpperCase() + subNames[index].substring(1)
+        }
+        return newName
+    }
+
+    @TaskAction
+    def generateAssets() {
+        println("=============> Generate Images START <==============")
+        FileOutputStream out
+        List<String[]> pathAssets = new ArrayList<>()
+        try {
+            for (i in 0..<project.allprojects.size()) {
+                String txtPath = project.allprojects[i].getProjectDir().getPath() + "/src/main/assets/"
+                String name = project.allprojects[i].name
+                if (name == "view") {
+                    String outPath = project.allprojects[i].getProjectDir().getPath() + "/src/main/java${packagePath}/" + fileSource
+                    File f = new File(outPath)
+                    f.delete()
+                    f.createNewFile()
+                    out = new FileOutputStream(f)
+                }
+                File ff = new File(txtPath)
+                if (ff.exists()) {
+                    pathAssets.add(new String[]{name, txtPath})
+                }
+            }
+
+            if (out == null) {
+                System.err.println("Error: View modul is not found!...")
+                return
+            }
+            if (pathAssets.isEmpty()) {
+                System.err.println("Error: No assets found!...")
+                return
+            }
+
+            out.write("\nobject Assets {\n".getBytes())
+            List<String> pathPhoto = new ArrayList<>()
+            for (path in pathAssets) {
+                println("Path = " + path)
+                findFiles(path, out, pathPhoto)
+            }
+            out.write("}".getBytes())
+            out.close()
+            println("=============> Generate Images Success <==============")
+        } catch (Exception e) {
+            e.printStackTrace()
+        }
+    }
+}
+
+task runScript(type: AssetsFactory) {}
+
+runScript() {
+
+}

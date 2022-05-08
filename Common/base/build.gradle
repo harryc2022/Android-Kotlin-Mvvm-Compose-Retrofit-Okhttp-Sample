@@ -1,8 +1,8 @@
-plugins {
-    id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
-}
-
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply from: '../../script/local.gradle'
 android {
     compileSdk 32
 
@@ -13,6 +13,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -25,13 +31,22 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+    buildFeatures {
+        compose true
+    }
     kotlinOptions {
         jvmTarget = '1.8'
     }
 }
 
 dependencies {
+    api project(path: ':framework:base')
     api project(path: ':common:dialog')
     api project(path: ':common:protocol')
     api project(path: ':common:view')
+    api project(path: ':common:viewmodel')
+    implementation "com.alibaba:arouter-api:$arouter_version"
 }

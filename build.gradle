@@ -7,6 +7,9 @@ buildscript {
     ext.activity_compose = '1.4.0'
     ext.viewmodel_compose = '2.4.1'
     ext.arouter_version = '1.5.1'
+    ext.coil_compose = '2.0.0-rc03'
+    ext.accompanist_version = '0.22.0-rc'
+    ext.page_version = '0.24.6-alpha'
 
     repositories {
         google()
@@ -16,6 +19,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:7.1.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
 
@@ -24,7 +28,7 @@ plugins {
     id 'com.android.library' version '7.1.3' apply false
     id 'org.jetbrains.kotlin.android' version '1.6.20' apply false
 }
-
+apply from: 'images.gradle'
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

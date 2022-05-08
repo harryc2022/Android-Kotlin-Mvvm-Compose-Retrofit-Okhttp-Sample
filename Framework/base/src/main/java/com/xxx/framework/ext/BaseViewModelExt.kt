@@ -34,15 +34,15 @@ fun <T> BaseVmActivity<*>.parseState(
 ) {
     when (resultState) {
         is ResultState.Loading -> {
-            showLoading(resultState.loadingMessage)
+            this.mViewModel.loadingChange.showLoading(resultState.loadingMessage)
             onLoading?.run { this }
         }
         is ResultState.Success -> {
-            dismissLoading()
+            this.mViewModel.loadingChange.dismissLoading()
             onSuccess(resultState.data)
         }
         is ResultState.Error -> {
-            dismissLoading()
+            this.mViewModel.loadingChange.dismissLoading()
             onError?.run { this(resultState.error) }
         }
     }
@@ -65,17 +65,17 @@ fun <T> BaseVmFragment<*>.parseState(
     when (resultState) {
         is ResultState.Loading -> {
             if(onLoading==null){
-                showLoading(resultState.loadingMessage)
+                this.mViewModel.loadingChange.showLoading(resultState.loadingMessage)
             }else{
                 onLoading.invoke(resultState.loadingMessage)
             }
         }
         is ResultState.Success -> {
-            dismissLoading()
+            this.mViewModel.loadingChange.dismissLoading()
             onSuccess(resultState.data)
         }
         is ResultState.Error -> {
-            dismissLoading()
+            this.mViewModel.loadingChange.dismissLoading()
             onError?.run { this(resultState.error) }
         }
     }
@@ -158,12 +158,12 @@ fun <T> BaseViewModel.request(
     //如果需要弹窗 通知Activity/fragment弹窗
     return viewModelScope.launch {
         runCatching {
-            if (isShowDialog) loadingChange.showDialog.postValue(loadingMessage)
+            loadingChange.showLoading(isShowDialog,loadingMessage)
             //请求体
             block()
         }.onSuccess {
             //网络请求成功 关闭弹窗
-            loadingChange.dismissDialog.postValue(false)
+            loadingChange.dismissLoading()
             runCatching {
                 //校验请求结果码是否正确，不正确会抛出异常走下面的onFailure
                 executeResponse(it) { t -> success(t)
@@ -178,7 +178,7 @@ fun <T> BaseViewModel.request(
             }
         }.onFailure {
             //网络请求异常 关闭弹窗
-            loadingChange.dismissDialog.postValue(false)
+            loadingChange.dismissLoading()
             //打印错误消息
             it.message?.loge()
             //打印错误栈信息
@@ -205,19 +205,19 @@ fun <T> BaseViewModel.requestNoCheck(
     loadingMessage: String = "请求网络中..."
 ): Job {
     //如果需要弹窗 通知Activity/fragment弹窗
-    if (isShowDialog) loadingChange.showDialog.postValue(loadingMessage)
+    loadingChange.showLoading(isShowDialog,loadingMessage)
     return viewModelScope.launch {
         runCatching {
             //请求体
             block()
         }.onSuccess {
             //网络请求成功 关闭弹窗
-            loadingChange.dismissDialog.postValue(false)
+            loadingChange.dismissLoading()
             //成功回调
             success(it)
         }.onFailure {
             //网络请求异常 关闭弹窗
-            loadingChange.dismissDialog.postValue(false)
+            loadingChange.dismissLoading()
             //打印错误消息
             it.message?.loge()
             //打印错误栈信息

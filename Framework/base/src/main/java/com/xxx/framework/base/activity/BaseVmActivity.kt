@@ -4,18 +4,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.xxx.framework.base.viewmodel.BaseViewModel
 import com.xxx.framework.ext.getVmClazz
 import com.xxx.framework.network.manager.NetState
 import com.xxx.framework.network.manager.NetworkStateManager
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.tooling.preview.Preview
 import com.xxx.framework.tool.loge
+import kotlinx.coroutines.flow.onCompletion
 
 abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
 
@@ -23,30 +20,38 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
 
     open fun layoutId(): Int? = null
 
+    open fun layoutView(): View? = null
+
+    //有的界面控制ComposeUi是否运行
+    open fun supportCompose(): Boolean = true
+
     @Composable
     open fun composeUi() {
     }
 
-    fun initView(savedInstanceState: Bundle?) {}
 
-    abstract fun showLoading(message: String = "请求网络中...")
-
-    abstract fun dismissLoading()
+    open fun initView(savedInstanceState: Bundle?) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         "Base Log:当前在${this.javaClass.simpleName}".loge()
         layoutId()?.let { layoutId ->
             setContentView(layoutId)
-        }?:setContent {
-            composeUi()
+        } ?: layoutView()?.let {
+            setContentView(it)
+        } ?: let {
+            if (supportCompose()) {
+                setContent {
+                    composeUi()
+                }
+            }
         }
         init(savedInstanceState)
     }
 
     private fun init(savedInstanceState: Bundle?) {
         mViewModel = createViewModel()
-        registerUiChange()
+//        registerUiChange()
         initView(savedInstanceState)
         createObserver()
         NetworkStateManager.instance.mNetworkStateCallback.observeInActivity(this, Observer {
@@ -71,34 +76,4 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
      */
     open fun createObserver() {}
 
-    /**
-     * 注册UI 事件
-     */
-    private fun registerUiChange() {
-        //显示弹窗
-        mViewModel.loadingChange.showDialog.observeInActivity(this, Observer {
-            showLoading(it)
-        })
-        //关闭弹窗
-        mViewModel.loadingChange.dismissDialog.observeInActivity(this, Observer {
-            dismissLoading()
-        })
-    }
-
-    /**
-     * 将非该Activity绑定的ViewModel添加 loading回调 防止出现请求时不显示 loading 弹窗bug
-     * @param viewModels Array<out BaseViewModel>
-     */
-    protected fun addLoadingObserve(vararg viewModels: BaseViewModel) {
-        viewModels.forEach { viewModel ->
-            //显示弹窗
-            viewModel.loadingChange.showDialog.observeInActivity(this, Observer {
-                showLoading(it)
-            })
-            //关闭弹窗
-            viewModel.loadingChange.dismissDialog.observeInActivity(this, Observer {
-                dismissLoading()
-            })
-        }
-    }
 }

@@ -41,7 +41,7 @@ android {
     }
     buildFeatures {
         compose true
-        viewBinding = true
+        viewBinding true
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
@@ -50,12 +50,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(path: ':business:base')
+    implementation project(path: ':common:base')
     implementation "com.alibaba:arouter-api:$arouter_version"
     kapt "com.alibaba:arouter-compiler:$arouter_version"
-    androidTestImplementation "androidx.compose.ui:ui-test:$compose_version"
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+    implementation "com.github.Tlaster:NestedScrollView:0.7.0"
+    implementation 'com.google.accompanist:accompanist-swiperefresh:0.24.7-alpha'
 }
 

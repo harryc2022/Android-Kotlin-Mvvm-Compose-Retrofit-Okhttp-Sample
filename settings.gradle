@@ -37,20 +37,14 @@ project(':common:base').projectDir =file('./Common/base')
 include ':common:dialog'
 project(':common:dialog').projectDir =file('./Common/dialog')
 
+include ':common:viewmodel'
+project(':common:viewmodel').projectDir =file('./Common/viewmodel')
+
 include ':common:protocol'
 project(':common:protocol').projectDir =file('./Common/protocol')
 
 include ':common:view'
 project(':common:view').projectDir =file('./Common/view')
-
-include ':business:base'
-project(':business:base').projectDir =file('./Business/base')
-
-include ':business:arouter'
-project(':business:arouter').projectDir =file('./Business/arouter')
-
-include ':business:viewmodel'
-project(':business:viewmodel').projectDir =file('./Business/viewmodel')
 
 include ':business:uiLogin'
 project(':business:uiLogin').projectDir =file('./Business/uiLogin')
@@ -58,7 +52,17 @@ project(':business:uiLogin').projectDir =file('./Business/uiLogin')
 include ':business:uiMain'
 project(':business:uiMain').projectDir =file('./Business/uiMain')
 
-include ':business:viewmodel'
-project(':business:viewmodel').projectDir =file('./Business/viewmodel')
+include ':business:uiMine'
+project(':business:uiMine').projectDir =file('./Business/uiMine')
+
+include ':business:uiGame'
+project(':business:uiGame').projectDir =file('./Business/uiGame')
+
+include ':business:uiFinance'
+project(':business:uiFinance').projectDir =file('./Business/uiFinance')
+
+include ':business:uiWeb'
+project(':business:uiWeb').projectDir =file('./Business/uiWeb')
+
 
 

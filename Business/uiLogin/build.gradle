@@ -46,7 +46,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(path: ':business:base')
+    implementation project(path: ':common:base')
+    implementation files('libs/libphonenumber-8.12.47.jar')
+    kapt 'com.alibaba:arouter-compiler:1.5.1'
     implementation "com.alibaba:arouter-api:$arouter_version"
     kapt "com.alibaba:arouter-compiler:$arouter_version"
 
