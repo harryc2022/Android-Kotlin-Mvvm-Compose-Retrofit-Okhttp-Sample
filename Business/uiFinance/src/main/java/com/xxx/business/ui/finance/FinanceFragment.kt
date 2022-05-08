@@ -9,7 +9,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,7 +36,7 @@ class FinanceFragment : BaseFragment<LoginViewModel>() {
     override fun Body() {
         val nestedScrollViewState = rememberNestedScrollViewState()
         val tabs = listOf(
-            TabItem.GOPAY,
+            TabItem.JINGDONG,
             TabItem.QQPAY,
             TabItem.ManualPAY,
             TabItem.QQPAY,
@@ -192,7 +191,7 @@ fun Tabs(tabs: List<TabItem>, pagerState: PagerState) {
 @Composable
 fun TabsPreview() {
     val tabs = listOf(
-        TabItem.GOPAY,
+        TabItem.JINGDONG,
         TabItem.QQPAY,
         TabItem.ManualPAY,
         TabItem.QQPAY,
@@ -218,7 +217,7 @@ fun TabsContent(tabs: List<TabItem>, pagerState: PagerState) {
 @Composable
 fun TabsContentPreview() {
     val tabs = listOf(
-        TabItem.GOPAY,
+        TabItem.JINGDONG,
         TabItem.QQPAY,
         TabItem.ManualPAY,
         TabItem.QQPAY,
